@@ -11,7 +11,7 @@ import services.ScreenService;
 public class WelcomeScreen implements Screen {
 
     private String welcomeText = "Welcome to VirtualKey!";
-    private String developerText = "Developer: Tim Fox";
+    private String developerText = "Developer: Alex Schultz";
 
     private ArrayList<String> options = new ArrayList<>();
     private Scanner in;
@@ -70,40 +70,25 @@ public class WelcomeScreen implements Screen {
     }
 
     public void ShowFiles() {
-
-        //TODO: Get the files from the Directory
-
+    	DirectoryService.sort();
         DirectoryService.PrintFiles();
-
-
-
-    }
-    public void AddFile() {
-        System.out.println("Please Enter the Filename:");
-
-        String fileName = this.getInputString();
-
-        System.out.println("You are adding a file named: " + fileName);
-
     }
 
     private String getInputString()
     {
-
-        //Scanner in = new Scanner(System.in);
         return(in.nextLine());
 
     }
     private int getOption()
     {
-        //Scanner in = new Scanner(System.in);
-
         int returnOption = 0;
         try {
-            returnOption = in.nextInt();
+        	String iput = in.nextLine();
+            returnOption = Integer.parseInt(iput);
         }
-        catch (InputMismatchException ex) {
-
+        catch (NumberFormatException ex) {
+        	System.err.println("Input must be an int!");
+        	return -1;
         }
         return returnOption;
 

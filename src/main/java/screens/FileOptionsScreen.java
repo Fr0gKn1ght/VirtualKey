@@ -5,11 +5,15 @@ import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
+import services.DirectoryService;
+import services.ScreenService;
+import entities.File;
 
 public class FileOptionsScreen implements Screen {
 
     private ArrayList<String> options = new ArrayList<>();
     private Scanner in;
+    private Scanner fScan = new Scanner(System.in);
 
 
     public FileOptionsScreen(Scanner s) {
@@ -51,13 +55,18 @@ public class FileOptionsScreen implements Screen {
             case 1: // Add File
                 this.AddFile();
                 break;
-            case 2:
+            case 2: // Delete File
+            	this.DeleteFile();
             	break;
-            case 3:
+            case 3: // Search File
+            	this.SearchFile();
             	break;
-            case 4:
+            case 4: // Return to main menu
+            	ScreenService.setCurrentScreen(ScreenService.WelcomeScreen);
+                ScreenService.getCurrentScreen().Show();
+                ScreenService.getCurrentScreen().GetUserInput();
             	break;
-            default:
+            default: // Invalid Operation
                 System.out.println("Invalid Option");
                 break;
 
@@ -69,28 +78,37 @@ public class FileOptionsScreen implements Screen {
         System.out.println("Please Enter the Filename:");
 
         String fileName = this.getInputString();
-
-        System.out.println("You are adding a file named: " + fileName);
-
+        DirectoryService.getFileDirectory().AddFile(new File(fileName));
+        DirectoryService.sort();
+    }
+    
+    public void DeleteFile() {
+    	System.out.println("Please Enter the Filename:");
+    	String fileName = this.getInputString();
+    	DirectoryService.getFileDirectory().DeleteFile(new File(fileName));
+    }
+    
+    private void SearchFile() {
+    	System.out.println("Please Enter the Filename:");
+    	String fileName = this.getInputString();
+    	File f = DirectoryService.getFileDirectory().SearchFile(fileName);
     }
 
     private String getInputString()
     {
-
-        //Scanner in = new Scanner(System.in);
         return(in.nextLine());
 
     }
     private int getOption()
     {
-        //Scanner in = new Scanner(System.in);
-
         int returnOption = 0;
         try {
-            returnOption = in.nextInt();
+        	String iput = in.nextLine();
+            returnOption = Integer.parseInt(iput);
         }
-        catch (InputMismatchException ex) {
-
+        catch (NumberFormatException ex) {
+        	System.err.println("Input must be an int!");
+        	return -1;
         }
         return returnOption;
 

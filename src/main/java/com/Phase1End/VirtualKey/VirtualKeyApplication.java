@@ -19,10 +19,10 @@ public class VirtualKeyApplication {
 
         DirectoryService.AddTestData();
         DirectoryService.PrintFiles();
-        //WelcomeScreen screen = new WelcomeScreen();
-
         ScreenService.getCurrentScreen().Show();
         ScreenService.getCurrentScreen().GetUserInput();
+        
+        ScreenService.end();
 
     }
 }

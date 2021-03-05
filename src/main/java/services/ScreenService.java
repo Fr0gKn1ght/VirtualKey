@@ -25,6 +25,7 @@ public class ScreenService {
     
     public static void end()
     {
+    	System.out.println("Goodbye!");
     	input.close();
     }
 }
